@@ -1,21 +1,36 @@
-function WalletOption({ name, icon, description, onClick }) {
+function WalletOption({
+  name,
+  description,
+  icon,
+  onClick,
+}) {
   return (
-    <button className="wallet-option" onClick={onClick}>
-      <div className="wallet-option-icon">
-        {icon}
-      </div>
+    <button
+      className="wallet-option"
+      onClick={onClick}
+      type="button"
+    >
+      <div className="wallet-option-left">
 
-      <div className="wallet-option-info">
-        <span className="wallet-option-name">
-          {name}
-        </span>
+        <div className="wallet-icon">
+          {icon}
+        </div>
 
-        {description && (
-          <span className="wallet-option-description">
+        <div className="wallet-info">
+          <span className="wallet-name">
+            {name}
+          </span>
+
+          <span className="wallet-description">
             {description}
           </span>
-        )}
+        </div>
+
       </div>
+
+      <span className="wallet-arrow">
+        →
+      </span>
     </button>
   );
 }

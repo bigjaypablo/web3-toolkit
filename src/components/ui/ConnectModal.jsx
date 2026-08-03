@@ -1,61 +1,94 @@
 import WalletOption from "./WalletOption";
 
-function ConnectModal({ onClose, onWalletSelect }) {
+function ConnectModal({
+  onClose,
+  onWalletSelect,
+}) {
   return (
-    <div className="modal-overlay">
-      <div className="connect-modal">
+    <div
+      className="modal-overlay"
+      onClick={onClose}
+    >
+      <div
+        className="connect-modal"
+        onClick={(event) => event.stopPropagation()}
+      >
 
         <button
           className="modal-close"
           onClick={onClose}
-          aria-label="Close modal"
+          type="button"
+          aria-label="Close wallet modal"
         >
           ×
         </button>
 
         <div className="modal-header">
-          <h2>Connect Wallet</h2>
+
+          <div className="modal-icon">
+            🔗
+          </div>
+
+          <h2>
+            Connect Wallet
+          </h2>
 
           <p>
-            Choose a wallet to connect to Web3 Toolkit.
+            Connect your wallet to access the app.
           </p>
+
         </div>
 
         <div className="wallet-list">
 
           <WalletOption
             name="Phantom"
-            description="Connect with Solana"
+            description="Solana"
             icon="👻"
-            onClick={() => onWalletSelect("Phantom")}
+            onClick={() =>
+              onWalletSelect("Phantom")
+            }
           />
 
           <WalletOption
             name="MetaMask"
-            description="Connect with EVM"
+            description="Ethereum & EVM"
             icon="🦊"
-            onClick={() => onWalletSelect("MetaMask")}
+            onClick={() =>
+              onWalletSelect("MetaMask")
+            }
           />
 
           <WalletOption
             name="Trust Wallet"
-            description="Connect with EVM"
+            description="Ethereum & EVM"
             icon="💙"
-            onClick={() => onWalletSelect("Trust Wallet")}
+            onClick={() =>
+              onWalletSelect("Trust Wallet")
+            }
           />
 
           <WalletOption
             name="Coinbase Wallet"
-            description="Connect with EVM"
+            description="Ethereum & EVM"
             icon="🔵"
-            onClick={() => onWalletSelect("Coinbase Wallet")}
+            onClick={() =>
+              onWalletSelect("Coinbase Wallet")
+            }
           />
 
         </div>
 
-        <p className="modal-footer">
-          By connecting your wallet, you agree to continue.
-        </p>
+        <div className="modal-footer">
+          <span>
+            🔒
+          </span>
+
+          <p>
+            Your wallet stays secure. We never have
+            access to your private keys.
+          </p>
+        </div>
 
       </div>
     </div>

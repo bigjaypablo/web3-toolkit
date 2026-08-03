@@ -13,8 +13,7 @@ function App() {
         </h1>
 
         <p>
-          A reusable wallet connection component
-          built with React.
+          Connect your wallet to access Web3 features.
         </p>
 
         <ConnectWallet />

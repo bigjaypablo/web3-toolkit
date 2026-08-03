@@ -1,8 +1,17 @@
 import { createAppKit } from "@reown/appkit/react";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import { mainnet, polygon, arbitrum, base } from "@reown/appkit/networks";
+import {
+  mainnet,
+  polygon,
+  arbitrum,
+  base,
+} from "@reown/appkit/networks";
 
 const projectId = import.meta.env.VITE_PROJECT_ID;
+
+if (!projectId) {
+  throw new Error("VITE_PROJECT_ID is missing");
+}
 
 const networks = [
   mainnet,
@@ -18,6 +27,9 @@ const metadata = {
   icons: [
     "https://bigjaypablo.github.io/web3-toolkit/favicon.ico",
   ],
+  redirect: {
+    universal: "https://bigjaypablo.github.io/web3-toolkit/",
+  },
 };
 
 const wagmiAdapter = new WagmiAdapter({
@@ -30,8 +42,12 @@ export const appKit = createAppKit({
   networks,
   projectId,
   metadata,
+
   features: {
-    analytics: true,
+    analytics: false,
+    swaps: false,
+    onramp: false,
+    socials: false,
   },
 });
 

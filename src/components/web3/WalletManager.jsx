@@ -6,21 +6,15 @@ export function WalletManager() {
   const [isConnecting, setIsConnecting] = useState(false);
   const [walletData, setWalletData] = useState(null);
 
-  // This function handles the real workflow: popup -> user choice -> sign -> connect
   const handleSelectWallet = async (walletType) => {
     setIsConnecting(true);
 
     try {
       if (walletType === 'injected') {
-        // 1. Check if a real web3 browser wallet (like MetaMask or Trust Wallet browser) exists
         if (typeof window !== 'undefined' && window.ethereum) {
-          
-          // 2. This triggers the real signature / connection prompt popup in the wallet
           const accounts = await window.ethereum.request({ 
             method: 'eth_requestAccounts' 
           });
-
-          // 3. Successfully connected and returned back to the platform
           setWalletData({
             address: accounts[0],
             provider: 'Browser Wallet'
@@ -29,8 +23,6 @@ export function WalletManager() {
           alert("No crypto wallet found! Please open this app inside Trust Wallet or MetaMask browser.");
         }
       } else if (walletType === 'phantom') {
-        // Handle Phantom / Solana connection logic here
-        // If window.solana is available:
         if (typeof window !== 'undefined' && window.solana) {
           const response = await window.solana.connect();
           setWalletData({
@@ -43,10 +35,9 @@ export function WalletManager() {
       }
 
       setIsConnecting(false);
-      setIsModalOpen(false); // Close modal on success
-
+      setIsModalOpen(false);
     } catch (error) {
-      console.error("User rejected connection or error occurred:", error);
+      console.error("User rejected connection:", error);
       setIsConnecting(false);
     }
   };
@@ -88,4 +79,3 @@ export function WalletManager() {
     </div>
   );
 }
-

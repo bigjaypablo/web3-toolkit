@@ -11,6 +11,7 @@ export function WalletManager() {
 
     try {
       if (walletType === 'injected') {
+        // Check if injected provider exists (already inside Trust/MetaMask browser)
         if (typeof window !== 'undefined' && window.ethereum) {
           const accounts = await window.ethereum.request({ 
             method: 'eth_requestAccounts' 
@@ -19,8 +20,21 @@ export function WalletManager() {
             address: accounts[0],
             provider: 'Browser Wallet'
           });
+          setIsConnecting(false);
+          setIsModalOpen(false);
         } else {
-          alert("No crypto wallet found! Please open this app inside Trust Wallet or MetaMask browser.");
+          // Not inside a web3 browser: Automatically deep-link to Trust Wallet / MetaMask app
+          const currentUrl = window.location.href.replace(/^https?:\/\//, '');
+          
+          // You can change this choice or give options, here we use Trust/MetaMask Universal Link format:
+          // Example for MetaMask: https://metamask.app.link/dapp/your-site.com
+          // Example for Trust Wallet: https://link.trustwallet.com/open_url?coin_id=60&url=https://your-site.com
+          
+          const dappUrl = encodeURIComponent(window.location.href);
+          const trustDeepLink = `https://link.trustwallet.com/open_url?coin_id=60&url=${dappUrl}`;
+          
+          // Trigger automatic redirect
+          window.location.href = trustDeepLink;
         }
       } else if (walletType === 'phantom') {
         if (typeof window !== 'undefined' && window.solana) {
@@ -29,15 +43,15 @@ export function WalletManager() {
             address: response.publicKey.toString(),
             provider: 'Phantom'
           });
+          setIsConnecting(false);
+          setIsModalOpen(false);
         } else {
-          alert("Phantom wallet extension not detected.");
+          const dappUrl = encodeURIComponent(window.location.href);
+          window.location.href = `https://phantom.app/ul/browse/${dappUrl}`;
         }
       }
-
-      setIsConnecting(false);
-      setIsModalOpen(false);
     } catch (error) {
-      console.error("User rejected connection:", error);
+      console.error("Connection error:", error);
       setIsConnecting(false);
     }
   };
